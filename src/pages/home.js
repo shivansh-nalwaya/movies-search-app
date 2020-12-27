@@ -1,13 +1,13 @@
 import React from "react";
 import {
-  StyleSheet,
-  TextInput,
-  Text,
-  View,
   KeyboardAvoidingView,
-  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  TouchableOpacity,
 } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Ionicons } from "@expo/vector-icons";
 
 const Home = () => {
   return (
@@ -22,9 +22,9 @@ const Home = () => {
           </Text>
         </View>
         <View style={styles.inputContainer}>
-          <TextInput style={styles.searchBox} />
+          <TextInput placeholder="Search" style={styles.searchBox} />
           <TouchableOpacity style={styles.searchButton}>
-            <Text>Search</Text>
+            <Ionicons name="search" size={32} color="black" />
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   searchBox: {
-    flex: 1,
+    flex: 6,
     fontSize: 24,
     height: 54,
     borderColor: "black",
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     marginLeft: -2,
     borderWidth: 2,
     borderColor: "black",
+    backgroundColor: "yellow",
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
     alignItems: "center",
