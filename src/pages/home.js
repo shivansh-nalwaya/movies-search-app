@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { connect } from "react-redux";
-import { search } from "../actions/searchAction";
+import Actions from "../actions";
 
 const Home = (props) => {
   return (
@@ -27,18 +27,21 @@ const Home = (props) => {
           <TextInput
             placeholder="Search"
             style={styles.searchBox}
-            onChangeText={props.search}
+            onChangeText={props.updateTerm}
           />
-          <TouchableOpacity style={styles.searchButton}>
+          <TouchableOpacity style={styles.searchButton} onPress={props.search}>
             <Ionicons name="search" size={32} color="black" />
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
-      <View style={styles.recentContainer}>
-        <Text style={styles.heading}>Recent Searches</Text>
-        <Text style={styles.subheading}>
-          {props.term || "No Recent Searches"}
-        </Text>
+      <View style={styles.resultsContainer}>
+        <Text style={styles.heading}>Results</Text>
+        {props.results.length == 0 && (
+          <Text style={styles.subheading}>No Results</Text>
+        )}
+        {props.results.map((movie) => (
+          <Text key={movie.imdbID}>{movie.Title}</Text>
+        ))}
       </View>
     </KeyboardAvoidingView>
   );
@@ -99,7 +102,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  recentContainer: {
+  resultsContainer: {
     flex: 1,
     padding: 30,
     alignItems: "flex-start",
@@ -110,12 +113,13 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   const { search } = state;
-  return { term: search.term };
+  return { results: search.results };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    search: (term) => dispatch(search(term)),
+    updateTerm: (term) => dispatch(Actions.Search.updateTerm(term)),
+    search: () => dispatch(Actions.Search.search()),
   };
 };
 
