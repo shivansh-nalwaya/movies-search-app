@@ -8,8 +8,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { connect } from "react-redux";
+import { search } from "../actions/searchAction";
 
-const Home = () => {
+const Home = (props) => {
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <KeyboardAvoidingView style={styles.searchContainer}>
@@ -22,7 +24,11 @@ const Home = () => {
           </Text>
         </View>
         <View style={styles.inputContainer}>
-          <TextInput placeholder="Search" style={styles.searchBox} />
+          <TextInput
+            placeholder="Search"
+            style={styles.searchBox}
+            onChangeText={props.search}
+          />
           <TouchableOpacity style={styles.searchButton}>
             <Ionicons name="search" size={32} color="black" />
           </TouchableOpacity>
@@ -30,7 +36,9 @@ const Home = () => {
       </KeyboardAvoidingView>
       <View style={styles.recentContainer}>
         <Text style={styles.heading}>Recent Searches</Text>
-        <Text style={styles.subheading}>No Recent Searches</Text>
+        <Text style={styles.subheading}>
+          {props.term || "No Recent Searches"}
+        </Text>
       </View>
     </KeyboardAvoidingView>
   );
@@ -100,4 +108,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+const mapStateToProps = (state) => {
+  const { search } = state;
+  return { term: search.term };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    search: (term) => dispatch(search(term)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
