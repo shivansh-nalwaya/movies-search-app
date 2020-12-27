@@ -6,43 +6,64 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import Actions from "../actions";
+import { ScrollView } from "react-native-gesture-handler";
+
+const MovieList = ({ list }) => {
+  return (
+    <>
+      {list.map((movie) => (
+        <View key={movie.imdbID}>
+          <Image
+            source={{ uri: movie.Poster }}
+            style={{ height: 100, width: 100 }}
+          />
+          <Text>Title: {movie.Title}</Text>
+        </View>
+      ))}
+    </>
+  );
+};
 
 const Home = (props) => {
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
-      <KeyboardAvoidingView style={styles.searchContainer}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Movie</Text>
-          <Text style={styles.title}>Search</Text>
-          <Text style={styles.subtitle}>
-            Just enter a search term and get a list of movies related to the
-            term.
-          </Text>
+      <ScrollView>
+        <View style={styles.searchContainer}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Movie</Text>
+            <Text style={styles.title}>Search</Text>
+            <Text style={styles.subtitle}>
+              Just enter a search term and get a list of movies related to the
+              term.
+            </Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Search"
+              style={styles.searchBox}
+              onChangeText={props.updateTerm}
+            />
+            <TouchableOpacity
+              style={styles.searchButton}
+              onPress={props.search}
+            >
+              <Ionicons name="search" size={32} color="black" />
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="Search"
-            style={styles.searchBox}
-            onChangeText={props.updateTerm}
-          />
-          <TouchableOpacity style={styles.searchButton} onPress={props.search}>
-            <Ionicons name="search" size={32} color="black" />
-          </TouchableOpacity>
+        <View style={styles.resultsContainer}>
+          <Text style={styles.heading}>Results</Text>
+          {props.results.length == 0 && (
+            <Text style={styles.subheading}>No Results</Text>
+          )}
+          <MovieList list={props.results} />
         </View>
-      </KeyboardAvoidingView>
-      <View style={styles.resultsContainer}>
-        <Text style={styles.heading}>Results</Text>
-        {props.results.length == 0 && (
-          <Text style={styles.subheading}>No Results</Text>
-        )}
-        {props.results.map((movie) => (
-          <Text key={movie.imdbID}>{movie.Title}</Text>
-        ))}
-      </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };
@@ -77,7 +98,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   inputContainer: {
-    marginTop: 10,
+    marginTop: 40,
     width: "100%",
     flexDirection: "row",
   },
