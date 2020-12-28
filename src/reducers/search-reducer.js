@@ -12,7 +12,7 @@ const searchReducer = (state = INITIAL_STATE, action) => {
     case "SEARCH":
       return {
         ...state,
-        results: action.payload.Search,
+        results: action.payload.results,
         totalResults: action.payload.totalResults,
       };
     default:

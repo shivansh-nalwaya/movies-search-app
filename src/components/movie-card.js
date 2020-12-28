@@ -1,26 +1,34 @@
 import LottieView from "lottie-react-native";
 import React, { useRef } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { connect } from "react-redux";
+import Actions from "../actions";
 
-const MovieCard = ({ movie }) => {
+const MovieCard = (props) => {
+  const { movie } = props;
+
   const animationRef = useRef();
 
-  const addToWatchlist = () => {
-    console.log(movie.watchlisted);
-    if (movie.watchlisted) animationRef.current.reset();
-    else animationRef.current.play();
-    movie.watchlisted = !movie.watchlisted;
+  const add = () => {
+    if (movie.watchlisted) {
+      animationRef.current.reset();
+      props.removeFromWatchlist(movie.imdbID);
+    } else {
+      animationRef.current.play();
+      props.addToWatchlist(movie.imdbID);
+    }
   };
 
   return (
     <View style={styles.cardContainer}>
-      <TouchableOpacity style={styles.likeButton} onPress={addToWatchlist}>
+      <TouchableOpacity style={styles.likeButton} onPress={add}>
         <LottieView
           style={{ width: 25, height: 25 }}
           source={require("../assets/animation.json")}
           ref={animationRef}
           loop={false}
           speed={movie.watchlisted ? -1 : 1}
+          progress={movie.watchlisted ? 60 : 0}
         />
       </TouchableOpacity>
       <Image source={{ uri: movie.Poster }} style={styles.poster} />
@@ -78,4 +86,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MovieCard;
+const mapStateToProps = (state) => {
+  const { search } = state;
+  return { results: search.results };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addToWatchlist: (id) => dispatch(Actions.Watchlist.addToWatchlist(id)),
+    removeFromWatchlist: () =>
+      dispatch(Actions.Watchlist.removeFromWatchlist()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieCard);
