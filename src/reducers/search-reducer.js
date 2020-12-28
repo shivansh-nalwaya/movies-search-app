@@ -3,6 +3,8 @@ const INITIAL_STATE = {
   loading: false,
   results: [],
   totalResults: 0,
+  currentPage: 1,
+  loadingNextPage: false,
 };
 
 const searchReducer = (state = INITIAL_STATE, action) => {
@@ -17,6 +19,16 @@ const searchReducer = (state = INITIAL_STATE, action) => {
         results: action.payload.results,
         totalResults: action.payload.totalResults,
         loading: false,
+        currentPage: 1,
+      };
+    case "SET_LOADING_NEXT":
+      return { ...state, loadingNextPage: action.payload };
+    case "NEXT_PAGE":
+      return {
+        ...state,
+        currentPage: state.currentPage + 1,
+        results: [...state.results, ...action.payload.results],
+        loadingNextPage: false,
       };
     default:
       return state;

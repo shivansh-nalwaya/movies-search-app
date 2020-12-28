@@ -6,11 +6,8 @@ import MovieCard from "./movie-card";
 const MovieList = ({ list }) => {
   return (
     <>
-      {_.map(_.chunk(list, 2), (group, index) => (
-        <View
-          key={`movie-list-${group[0].imdbID}-${group[1].imdbID}`}
-          style={styles.container}
-        >
+      {_.map(_.chunk(list, 2), (group) => (
+        <View key={`movie-list-${_.random(100000)}`} style={styles.container}>
           <MovieCard movie={group[0]} />
           <MovieCard movie={group[1]} />
         </View>

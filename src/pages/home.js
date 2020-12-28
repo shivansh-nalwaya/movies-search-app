@@ -16,10 +16,25 @@ import _ from "lodash";
 import MovieList from "../components/movie-list";
 import LottieView from "lottie-react-native";
 
+const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+  const paddingToBottom = 20;
+  return (
+    layoutMeasurement.height + contentOffset.y >=
+    contentSize.height - paddingToBottom
+  );
+};
+
 const Home = (props) => {
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        onScroll={({ nativeEvent }) => {
+          if (isCloseToBottom(nativeEvent)) {
+            props.nextPage();
+          }
+        }}
+        scrollEventThrottle={400}
+      >
         <View style={styles.searchContainer}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Movie</Text>
@@ -60,6 +75,17 @@ const Home = (props) => {
             </View>
           )}
           <MovieList list={props.results} />
+          {props.loadingNextPage && (
+            <View style={styles.center}>
+              <LottieView
+                style={{ width: 200, height: 200 }}
+                source={require("../assets/loading-animation.json")}
+                autoPlay={true}
+                loop={true}
+              />
+              <Text style={styles.loadingText}>Loading more movies...</Text>
+            </View>
+          )}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -141,13 +167,18 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   const { search } = state;
-  return { results: search.results, loading: search.loading };
+  return {
+    results: search.results,
+    loading: search.loading,
+    loadingNextPage: search.loadingNextPage,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     updateTerm: (term) => dispatch(Actions.Search.updateTerm(term)),
     search: () => dispatch(Actions.Search.search()),
+    nextPage: () => dispatch(Actions.Search.nextPage()),
   };
 };
 
