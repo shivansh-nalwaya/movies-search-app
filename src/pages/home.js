@@ -12,22 +12,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import Actions from "../actions";
 import { ScrollView } from "react-native-gesture-handler";
-
-const MovieList = ({ list }) => {
-  return (
-    <>
-      {list.map((movie) => (
-        <View key={movie.imdbID}>
-          <Image
-            source={{ uri: movie.Poster }}
-            style={{ height: 100, width: 100 }}
-          />
-          <Text>Title: {movie.Title}</Text>
-        </View>
-      ))}
-    </>
-  );
-};
+import _ from "lodash";
+import MovieList from "../components/movie-list";
 
 const Home = (props) => {
   return (
@@ -58,7 +44,7 @@ const Home = (props) => {
         </View>
         <View style={styles.resultsContainer}>
           <Text style={styles.heading}>Results</Text>
-          {props.results.length == 0 && (
+          {_.size(props.results) == 0 && (
             <Text style={styles.subheading}>No Results</Text>
           )}
           <MovieList list={props.results} />
