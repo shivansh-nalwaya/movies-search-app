@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 30,
     paddingVertical: 60,
+    paddingTop: 100,
     alignItems: "center",
     justifyContent: "space-around",
     backgroundColor: "#4BC3E0",
