@@ -7,8 +7,10 @@ const INITIAL_STATE = {
 
 const watchlistReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case "SET_LOADING_WATCHLIST":
+      return { ...state, loading: action.payload };
     case "LOAD_WATCHLIST":
-      return { ...state, list: action.payload };
+      return { ...state, list: action.payload, loading: false };
     case "ADD_TO_WATCHLIST":
       return { ...state, list: [...state.list, action.payload] };
     case "REMOVE_FROM_WATCHLIST":

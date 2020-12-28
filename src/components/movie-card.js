@@ -12,10 +12,10 @@ const MovieCard = (props) => {
   const add = () => {
     if (movie.watchlisted) {
       animationRef.current.reset();
-      props.removeFromWatchlist(movie.imdbID);
+      props.removeFromWatchlist(movie);
     } else {
       animationRef.current.play();
-      props.addToWatchlist(movie.imdbID);
+      props.addToWatchlist(movie);
     }
   };
 
@@ -102,8 +102,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addToWatchlist: (id) => dispatch(Actions.Watchlist.addToWatchlist(id)),
-    removeFromWatchlist: () =>
-      dispatch(Actions.Watchlist.removeFromWatchlist()),
+    removeFromWatchlist: (movie) =>
+      dispatch(Actions.Watchlist.removeFromWatchlist(movie)),
   };
 };
 

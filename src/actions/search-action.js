@@ -19,7 +19,10 @@ const nextPageDebounced = debounce(
           const results = _.map(response.data.Search, (movie) => {
             return {
               ...movie,
-              watchlisted: _.includes(watchlist, movie.imdbID),
+              watchlisted: _.includes(
+                _.map(watchlist, (w) => w.imdbID),
+                movie.imdbID
+              ),
             };
           });
           dispatch({ type: "NEXT_PAGE", payload: { results } });
@@ -46,7 +49,10 @@ const Search = {
             const results = _.map(response.data.Search, (movie) => {
               return {
                 ...movie,
-                watchlisted: _.includes(watchlist, movie.imdbID),
+                watchlisted: _.includes(
+                  _.map(watchlist, (w) => w.imdbID),
+                  movie.imdbID
+                ),
               };
             });
             const totalResults = response.data.totalResults;
