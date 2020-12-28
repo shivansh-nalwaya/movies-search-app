@@ -31,7 +31,15 @@ const MovieCard = (props) => {
           progress={movie.watchlisted ? 60 : 0}
         />
       </TouchableOpacity>
-      <Image source={{ uri: movie.Poster }} style={styles.poster} />
+      <Image
+        source={{
+          uri:
+            movie.Poster != "N/A"
+              ? movie.Poster
+              : "https://catalog.osaarchivum.org/assets/thumbnail_placeholder_movie-480596e192e7043677f77cf78b13bdd1.jpg",
+        }}
+        style={styles.poster}
+      />
       <View style={styles.detailContainer}>
         <Text style={styles.movieTitle}>{movie.Title}</Text>
         <Text style={styles.movieYear}>Year - {movie.Year}</Text>

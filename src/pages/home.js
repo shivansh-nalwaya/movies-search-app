@@ -14,6 +14,7 @@ import Actions from "../actions";
 import { ScrollView } from "react-native-gesture-handler";
 import _ from "lodash";
 import MovieList from "../components/movie-list";
+import LottieView from "lottie-react-native";
 
 const Home = (props) => {
   return (
@@ -46,6 +47,17 @@ const Home = (props) => {
           <Text style={styles.heading}>Results</Text>
           {_.size(props.results) == 0 && (
             <Text style={styles.subheading}>No Results</Text>
+          )}
+          {props.loading && (
+            <View style={styles.center}>
+              <LottieView
+                style={{ width: 200, height: 200 }}
+                source={require("../assets/loading-animation.json")}
+                autoPlay={true}
+                loop={true}
+              />
+              <Text style={styles.loadingText}>Loading movies...</Text>
+            </View>
           )}
           <MovieList list={props.results} />
         </View>
@@ -116,11 +128,20 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     backgroundColor: "lightpink",
   },
+  center: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    fontSize: 16,
+    marginTop: -20,
+  },
 });
 
 const mapStateToProps = (state) => {
   const { search } = state;
-  return { results: search.results };
+  return { results: search.results, loading: search.loading };
 };
 
 const mapDispatchToProps = (dispatch) => {

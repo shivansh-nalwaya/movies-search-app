@@ -7,6 +7,8 @@ const INITIAL_STATE = {
 
 const searchReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case "SET_LOADING":
+      return { ...state, loading: action.payload };
     case "UPDATE_TERM":
       return { ...state, term: action.payload };
     case "SEARCH":
@@ -14,6 +16,7 @@ const searchReducer = (state = INITIAL_STATE, action) => {
         ...state,
         results: action.payload.results,
         totalResults: action.payload.totalResults,
+        loading: false,
       };
     default:
       return state;

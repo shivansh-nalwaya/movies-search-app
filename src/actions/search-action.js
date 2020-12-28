@@ -6,6 +6,7 @@ const Search = {
   updateTerm: (term) => ({ type: "UPDATE_TERM", payload: term }),
   search: () => {
     return function (dispatch, getState) {
+      dispatch({ type: "SET_LOADING", payload: true });
       const state = getState();
       const { search } = state;
       const { term } = search;
