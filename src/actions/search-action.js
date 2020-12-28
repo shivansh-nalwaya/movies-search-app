@@ -46,17 +46,22 @@ const Search = {
         axios
           .get(`http://www.omdbapi.com/?type=movie&apikey=a1b5f9ec&s=${term}`)
           .then((response) => {
-            const results = _.map(response.data.Search, (movie) => {
-              return {
-                ...movie,
-                watchlisted: _.includes(
-                  _.map(watchlist, (w) => w.imdbID),
-                  movie.imdbID
-                ),
-              };
-            });
-            const totalResults = response.data.totalResults;
-            dispatch({ type: "SEARCH", payload: { results, totalResults } });
+            console.log(response.data);
+            if (response.data.Response == "True") {
+              const results = _.map(response.data.Search, (movie) => {
+                return {
+                  ...movie,
+                  watchlisted: _.includes(
+                    _.map(watchlist, (w) => w.imdbID),
+                    movie.imdbID
+                  ),
+                };
+              });
+              const totalResults = response.data.totalResults;
+              dispatch({ type: "SEARCH", payload: { results, totalResults } });
+            } else {
+              dispatch({ type: "ERROR", payload: response.data.Error });
+            }
           });
       });
     };

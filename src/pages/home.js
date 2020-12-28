@@ -59,7 +59,12 @@ const Home = (props) => {
         </View>
         <View style={styles.resultsContainer}>
           <Text style={styles.heading}>Results</Text>
-          {_.size(props.results) == 0 && (
+          {!!props.error && (
+            <Text style={{ ...styles.subheading, color: "red" }}>
+              Error: {props.error}
+            </Text>
+          )}
+          {_.size(props.results) == 0 && !props.error && (
             <Text style={styles.subheading}>No Results</Text>
           )}
           {props.loading && (
@@ -103,7 +108,7 @@ const styles = StyleSheet.create({
     paddingVertical: 60,
     alignItems: "center",
     justifyContent: "space-around",
-    backgroundColor: "coral",
+    backgroundColor: "#4BC3E0",
   },
   title: {
     fontSize: 44,
@@ -140,7 +145,7 @@ const styles = StyleSheet.create({
     marginLeft: -2,
     borderWidth: 2,
     borderColor: "black",
-    backgroundColor: "yellow",
+    backgroundColor: "#EF6553",
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
     alignItems: "center",
@@ -151,7 +156,7 @@ const styles = StyleSheet.create({
     padding: 30,
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    backgroundColor: "lightpink",
+    backgroundColor: "white",
   },
   center: {
     width: "100%",
@@ -170,6 +175,7 @@ const mapStateToProps = (state) => {
     results: search.results,
     loading: search.loading,
     loadingNextPage: search.loadingNextPage,
+    error: search.error,
   };
 };
 

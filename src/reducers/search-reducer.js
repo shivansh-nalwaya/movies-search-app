@@ -5,12 +5,17 @@ const INITIAL_STATE = {
   totalResults: 0,
   currentPage: 1,
   loadingNextPage: false,
+  error: "",
 };
 
 const searchReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "SET_LOADING":
-      return { ...state, loading: action.payload };
+      return {
+        ...state,
+        loading: action.payload,
+        results: action.payload ? [] : state.results,
+      };
     case "UPDATE_TERM":
       return { ...state, term: action.payload };
     case "SEARCH":
@@ -20,6 +25,7 @@ const searchReducer = (state = INITIAL_STATE, action) => {
         totalResults: action.payload.totalResults,
         loading: false,
         currentPage: 1,
+        error: "",
       };
     case "SET_LOADING_NEXT":
       return { ...state, loadingNextPage: action.payload };
@@ -30,6 +36,8 @@ const searchReducer = (state = INITIAL_STATE, action) => {
         results: [...state.results, ...action.payload.results],
         loadingNextPage: false,
       };
+    case "ERROR":
+      return { ...state, error: action.payload, loading: false };
     default:
       return state;
   }

@@ -15,8 +15,8 @@ const Watchlist = (props) => {
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
+        <Text style={styles.heading}>Watchlist</Text>
         <View style={styles.resultsContainer}>
-          <Text style={styles.heading}>Watchlist</Text>
           {_.size(props.results) == 0 && (
             <Text style={styles.subheading}>No movies watchlisted</Text>
           )}
@@ -48,10 +48,15 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   heading: {
-    fontSize: 24,
+    fontSize: 44,
+    lineHeight: 44,
     fontWeight: "bold",
-    marginVertical: 20,
-    marginTop: 40,
+    textAlign: "center",
+    width: "100%",
+    textAlign: "center",
+    paddingTop: 100,
+    paddingBottom: 20,
+    backgroundColor: "#4BC3E0",
   },
   subheading: {
     marginTop: 20,
@@ -61,7 +66,6 @@ const styles = StyleSheet.create({
     padding: 30,
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    backgroundColor: "lightpink",
   },
   center: {
     width: "100%",
