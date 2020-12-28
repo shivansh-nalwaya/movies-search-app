@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import Actions from "../actions";
+import _ from "lodash";
 
 const MovieCard = (props) => {
   const { movie } = props;
@@ -13,6 +14,7 @@ const MovieCard = (props) => {
     if (movie.watchlisted) {
       animationRef.current.reset();
       props.removeFromWatchlist(movie);
+      if (_.isFunction(props.onRemove)) props.onRemove();
     } else {
       animationRef.current.play();
       props.addToWatchlist(movie);

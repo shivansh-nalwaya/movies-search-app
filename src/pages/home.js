@@ -1,20 +1,19 @@
-import React from "react";
+import { Ionicons } from "@expo/vector-icons";
+import _ from "lodash";
+import LottieView from "lottie-react-native";
+import React, { useEffect } from "react";
 import {
   KeyboardAvoidingView,
   StyleSheet,
   Text,
   TextInput,
-  View,
   TouchableOpacity,
-  Image,
+  View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { ScrollView } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import Actions from "../actions";
-import { ScrollView } from "react-native-gesture-handler";
-import _ from "lodash";
 import MovieList from "../components/movie-list";
-import LottieView from "lottie-react-native";
 
 const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
   const paddingToBottom = 20;

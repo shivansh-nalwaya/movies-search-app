@@ -3,13 +3,13 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import MovieCard from "./movie-card";
 
-const MovieList = ({ list }) => {
+const MovieList = ({ list, onRemove }) => {
   return (
     <>
       {_.map(_.chunk(list, 2), (group) => (
         <View key={`movie-list-${_.random(100000)}`} style={styles.container}>
-          <MovieCard movie={group[0]} />
-          {group[1] && <MovieCard movie={group[1]} />}
+          <MovieCard movie={group[0]} onRemove={onRemove} />
+          {group[1] && <MovieCard movie={group[1]} onRemove={onRemove} />}
         </View>
       ))}
     </>

@@ -12,7 +12,6 @@ const Watchlist = (props) => {
     props.loadWatchlist();
   }, []);
 
-  console.log(props.results);
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
@@ -33,6 +32,7 @@ const Watchlist = (props) => {
             </View>
           )}
           <MovieList
+            onRemove={() => props.loadWatchlist()}
             list={_.map(props.results, (m) => ({ ...m, watchlisted: true }))}
           />
         </View>
